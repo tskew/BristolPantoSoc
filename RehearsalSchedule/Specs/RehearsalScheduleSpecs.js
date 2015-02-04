@@ -60,13 +60,51 @@ describe("creates a personalised schedule for each actor", function() {
 	});
 
 	describe("getting all rehearsals for an array of scenes", function() {
-		it("should return no rehearsals when there are no rehearsals", function() {
-			rehearsals = [];
+	    it("should return no rehearsals when there are no rehearsals", function () {
+	        rehearsals = [];
 
-			var result = getRehearsalsForScenes(null);
+	        var result = getRehearsalsForScenes(null);
 
-			expect(result).toEqual([]);
-		})
+	        expect(result).toEqual([]);
+	    });
+
+	    it("should return no rehearsals when there are no rehearsals for those scenes", function () {
+	        rehearsals = [{ sceneNumber: 1, rehearsalName: "test" }];
+
+	        var result = getRehearsalsForScenes([2]);
+
+	        expect(result).toEqual([]);
+	    });
+
+	    it("should return all rehearsals for a given set of scenes", function () {
+	        rehearsals = [{ sceneNumber: 1, rehearsalName: "first test" },
+	                      { sceneNumber: 1, rehearsalName: "second test" },
+	                      { sceneNumber: 2, rehearsalName: "third test" },
+	                      { sceneNumber: 3, rehearsalName: "not included" }];
+
+	        var result = getRehearsalsForScenes([1, 2]);
+
+	        expect(result.length).toEqual(3);
+	        expect(result[0].rehearsalName).toEqual("first test");
+	    });
+	})
+
+	describe("getting all rehearsals with specific parts", function () {
+	    it("should return no rehearsals when there aren't any rehearsals", function () {
+	        rehearsals = [];
+
+	        var result = getRehearsalsWithSpecificParts(null);
+
+	        expect(result).toEqual([]);
+	    });
+
+	    it("should return all rehearsals which specify the given parts", function () {
+	        rehearsals = [{ rehearsalName: "rehearsal with specific part", specificParts: ["actor's part"] }]
+
+	        var result = getRehearsalsWithSpecificParts(["actor's part"]);
+
+	        expect(result.length).toEqual(1);
+	    })
 	})
 
 })

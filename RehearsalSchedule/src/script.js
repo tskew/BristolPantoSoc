@@ -27,5 +27,22 @@ function getScenesForParts(parts) {
 }
 
 function getRehearsalsForScenes(scenes) {
-	return [];
+    var rehearsalsToReturn = [];
+
+    $.each(rehearsals, function (index, rehearsal) {
+        $.each(scenes, function (index, scene) {
+            if (rehearsal.sceneNumber == scene) {
+                rehearsalsToReturn.push(rehearsal);
+            };
+        });
+    });
+    
+    return rehearsalsToReturn;
+}
+
+function getRehearsalsWithSpecificParts(parts) {
+    if (rehearsals.length > 0) {
+        return [rehearsals[0]];
+    }
+    return [];
 }
