@@ -99,11 +99,15 @@ describe("creates a personalised schedule for each actor", function() {
 	    });
 
 	    it("should return all rehearsals which specify the given parts", function () {
-	        rehearsals = [{ rehearsalName: "rehearsal with specific part", specificParts: ["actor's part"] }]
+	        rehearsals = [{ rehearsalName: "rehearsal with specific part", specificParts: ["actor's part"] },
+	                      { rehearsalName: "rehearsal with specific part", specificParts: ["actor's part"] },
+	                      { rehearsalName: "rehearsal with specific part", specificParts: ["actor's other part"] },
+	                      { rehearsalName: "rehearsal with multiple specific parts", specificParts: ["any part", "actor's part"] },
+	                      { rehearsalName: "rehearsal without specific parts", sceneNumber: 1}]
 
-	        var result = getRehearsalsWithSpecificParts(["actor's part"]);
+	        var result = getRehearsalsWithSpecificParts(["actor's part", "actor's other part"]);
 
-	        expect(result.length).toEqual(1);
+	        expect(result.length).toEqual(4);
 	    })
 	})
 

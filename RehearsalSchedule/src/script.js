@@ -41,8 +41,19 @@ function getRehearsalsForScenes(scenes) {
 }
 
 function getRehearsalsWithSpecificParts(parts) {
-    if (rehearsals.length > 0) {
-        return [rehearsals[0]];
-    }
-    return [];
+    var rehearsalsToReturn = [];
+
+    $.each(rehearsals, function (index, rehearsal) {
+        if (rehearsal.specificParts != null) {
+            $.each(rehearsal.specificParts, function (index, specificPart) {
+                $.each(parts, function (index, part) {
+                    if (specificPart == part) {
+                        rehearsalsToReturn.push(rehearsal);
+                    };
+                });
+            });
+        };
+    });
+    
+    return rehearsalsToReturn;
 }
