@@ -1,3 +1,9 @@
+"use strict";
+
+var parts = [];
+var scenes = [];
+var rehearsals = [];
+
 function getRehearsalsForActor(actor) {
     var partsForActor = getPartsForActor(actor);
     var scenesForParts = getScenesForParts(partsForActor);

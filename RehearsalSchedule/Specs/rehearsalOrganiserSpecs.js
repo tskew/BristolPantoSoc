@@ -1,4 +1,6 @@
-describe("creates a personalised schedule for each actor", function() {
+"use strict";
+
+describe("creates a personalised schedule for each actor", function () {
 
 	beforeEach(function() {
 		parts = [];
