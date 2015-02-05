@@ -1,3 +1,13 @@
+function getRehearsalsForActor(actor) {
+    var partsForActor = getPartsForActor(actor);
+    var scenesForParts = getScenesForParts(partsForActor);
+    var rehearsalsForScenes = getRehearsalsForScenes(scenesForParts);
+    var rehearsalsWithSpecificParts = getRehearsalsWithSpecificParts(partsForActor);
+    var fullCastRehearsals = getFullCastRehearsals();
+
+    return rehearsalsForScenes.concat(rehearsalsWithSpecificParts, fullCastRehearsals);
+}
+
 function getPartsForActor(actor) {
 	var partsForActor = [];
 
@@ -31,8 +41,10 @@ function getRehearsalsForScenes(scenes) {
 
     $.each(rehearsals, function (index, rehearsal) {
         $.each(scenes, function (index, scene) {
-            if (rehearsal.sceneNumber == scene) {
-                rehearsalsToReturn.push(rehearsal);
+            if (rehearsal.sceneNumbers != null) {
+                if (rehearsal.sceneNumbers.indexOf(scene) > -1) {
+                    rehearsalsToReturn.push(rehearsal);
+                };
             };
         });
     });
@@ -55,5 +67,17 @@ function getRehearsalsWithSpecificParts(parts) {
         };
     });
     
+    return rehearsalsToReturn;
+}
+
+function getFullCastRehearsals() {
+    var rehearsalsToReturn = []
+
+    $.each(rehearsals, function(index, rehearsal) {
+        if ((rehearsal.sceneNumbers == null) && (rehearsal.specificParts == null)) {
+            rehearsalsToReturn.push(rehearsals);
+        };
+    })
+
     return rehearsalsToReturn;
 }
