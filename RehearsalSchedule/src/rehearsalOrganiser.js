@@ -81,7 +81,7 @@ function getFullCastRehearsals() {
 
     $.each(rehearsals, function(index, rehearsal) {
         if ((rehearsal.sceneNumbers == null) && (rehearsal.specificParts == null)) {
-            rehearsalsToReturn.push(rehearsals);
+            rehearsalsToReturn.push(rehearsal);
         };
     })
 

@@ -159,7 +159,7 @@ describe("creates a personalised schedule for each actor", function () {
 
 			var result = getFullCastRehearsals();
 
-			expect(result.length).toEqual(1);
+			expect(result).toEqual([{ rehearsalName: "full cast rehearsal" }]);
 		});
 	});
 })

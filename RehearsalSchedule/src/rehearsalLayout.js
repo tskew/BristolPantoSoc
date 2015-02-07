@@ -1,11 +1,11 @@
 "use strict";
 
-var StartTime = 14;
+var StartTime = 12;
 var PixelsPerHour = 90;
 
-var ActingRehearsalColour = "green";
-var SingingRehearsalColour = "yellow";
-var DancingRehearsalColour = "red";
+var ActingRehearsalColour = "#BE81F7";
+var SingingRehearsalColour = "#FA5882";
+var DancingRehearsalColour = "#81F7F3";
 
 function getDatesFromRehearsals(rehearsals) {
     var dates = [];
@@ -38,7 +38,11 @@ function sortDates(dates) {
         } else if (a.month === b.month) {
             if (a.day > b.day) {
                 return 1;
+            } else {
+                return -1
             };
+        } else {
+            return -1;
         };
     });
 }
