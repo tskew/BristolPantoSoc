@@ -154,8 +154,8 @@ describe("creates a personalised schedule for each actor", function () {
 
 		it("should return all rehearsals which apply to the full cast", function() {
 			rehearsals = [{ rehearsalName: "full cast rehearsal" },
-						  { sceneNumbers : [1]},
-						  { rehearsalName: "specific rehearsal", specificParts: ["any part"] }];
+						  { rehearsalName: "scene rehearsal", sceneNumbers : [1]},
+						  { rehearsalName: "specific character rehearsal", specificParts: ["any part"] }];
 
 			var result = getFullCastRehearsals();
 

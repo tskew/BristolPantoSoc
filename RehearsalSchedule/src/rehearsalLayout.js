@@ -1,5 +1,12 @@
 "use strict";
 
+var StartTime = 14;
+var PixelsPerHour = 90;
+
+var ActingRehearsalColour = "green";
+var SingingRehearsalColour = "yellow";
+var DancingRehearsalColour = "red";
+
 function getDatesFromRehearsals(rehearsals) {
     var dates = [];
 
@@ -25,5 +32,58 @@ function datesNotAlreadyGrouped(rehearsal, dates) {
 }
 
 function sortDates(dates) {
-    return dates;
+    return dates.sort(function(a, b) {
+        if (a.month > b.month) {
+            return 1;
+        } else if (a.month === b.month) {
+            if (a.day > b.day) {
+                return 1;
+            };
+        };
+    });
+}
+
+function getRehearsalTitle(rehearsal) {
+    if (rehearsal.rehearsalName != null) {
+        return rehearsal.rehearsalName;
+    } else {
+        if (rehearsal.sceneNumbers != null) {
+            if (rehearsal.sceneNumbers.length === 1) {
+                return "Scene " + rehearsal.sceneNumbers[0];
+            } else {
+                return "Scenes " + rehearsal.sceneNumbers.join(", ");
+            }
+        };
+
+        if (rehearsal.specificParts != null) {
+            return rehearsal.specificParts.join("/");
+        }
+    }
+}
+
+function getTimeAsPixelOffset(time) {
+    var unitTimePastStart = time.hour - StartTime;
+    unitTimePastStart += (time.minute / 60);
+    return (unitTimePastStart * PixelsPerHour) + "px";
+}
+
+function getDurationAsPixelLength(duration) {
+    return ((duration * PixelsPerHour) - 1) + "px";
+}
+
+function formatTime(minute) {
+    return minute > 9 ? "" + minute: "0" + minute;
+}
+
+function getColourForRehearsal(rehearsal) {
+    if (rehearsal.rehearsalType != null) {
+        if (rehearsal.rehearsalType === 'A') {
+            return ActingRehearsalColour;
+        } else if (rehearsal.rehearsalType === 'S') {
+            return SingingRehearsalColour;
+        } else if (rehearsal.rehearsalType === 'D') {
+            return DancingRehearsalColour;
+        }
+    }
+    return ActingRehearsalColour;
 }

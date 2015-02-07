@@ -11,7 +11,7 @@ function getRehearsalsForActor(actor) {
     var rehearsalsWithSpecificParts = getRehearsalsWithSpecificParts(partsForActor);
     var fullCastRehearsals = getFullCastRehearsals();
 
-    return rehearsalsForScenes.concat(rehearsalsWithSpecificParts, fullCastRehearsals);
+    return [].concat(rehearsalsForScenes, rehearsalsWithSpecificParts, fullCastRehearsals);
 }
 
 function getPartsForActor(actor) {
