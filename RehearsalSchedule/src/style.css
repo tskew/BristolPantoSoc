@@ -1,0 +1,29 @@
+.scheduleRow {
+	width: 901px;
+	border-bottom: 1px solid black;
+}
+
+.dates {
+	width: 87px;
+	padding-left: 2px;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	display: inline-block;
+}
+
+.time {
+	width: 44px;
+	border-right: 1px solid black;
+	display: inline-block;
+}
+
+.rehearsal {
+	position: absolute;
+	display: inline-block;
+	text-align: center;
+	border-right: 1px solid black;
+}
+
+.actorSelection {
+	margin-bottom: 5px;
+}
