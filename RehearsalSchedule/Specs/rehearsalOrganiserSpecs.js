@@ -10,15 +10,17 @@ describe("creates a personalised schedule for each actor", function () {
 
 	it("should return all rehearsals applicable to a given actor", function() {
 		parts = [{actor : "any actor", character : "any part"}];
-		scenes = [{sceneNumber : 1, characters: ["any part"]}];
+		scenes = [{sceneNumber : 1, characters: ["any part"]},
+				  {sceneNumber: 2, characters: ["any other part"], optionalCharacters: ["any part"]}];
 		rehearsals = [{rehearsalName: "rehearsal for scene containing actor", sceneNumbers : [1]},
 					  {rehearsalName: "rehearsal for scene not containing actor", sceneNumbers: [2]},
+					  {rehearsalName: "rehearsal for actor's optional part", sceneNumbers: [2, 3]},
 					  {rehearsalName: "rehearsal for actor's part", specificParts: ["any part"]},
 					  {rehearsalName: "rehearsal for everyone"}];
 
 		var result = getRehearsalsForActor("any actor");
 
-		expect(result.length).toEqual(3);
+		expect(result.length).toEqual(4);
 	})
 
 	describe("getting all parts for a given actor", function() {
@@ -76,6 +78,36 @@ describe("creates a personalised schedule for each actor", function () {
 		});
 	});
 
+	describe("getting optional scenes for an array of parts", function() {
+		it("should return no scenes when there are no scenes", function() {
+			scenes = [];
+
+			var result = getOptionalScenesForParts(null);
+
+			expect(result).toEqual([]);
+		});
+
+		it("should return no scenes when there are no scenes with optional parts", function() {
+			scenes = [{sceneNumber: 1, characters: ["any part"]}];
+
+			var result = getOptionalScenesForParts(["any part"]);
+
+			expect(result).toEqual([]);
+		});
+
+		it("should return all scenes for the given optional parts", function() {
+			scenes = [{sceneNumber: 1, optionalCharacters: ["any part"]},
+					  {sceneNumber: 2, optionalCharacters: ["any part"]},
+					  {sceneNumber: 3, optionalCharacters: ["not one of the parts", "any part"]},
+					  {sceneNumber: 4, optionalCharacters: ["any other part"]},
+					  {sceneNumber: 5, optionalCharacters: ["not one of the parts"]}];
+
+			var result = getOptionalScenesForParts(["any part", "any other part"]);
+
+			expect(result).toEqual([1, 2, 3, 4]);
+		})
+	})
+
 	describe("getting all rehearsals for an array of scenes", function() {
 	    it("should return no rehearsals when there are no rehearsals", function () {
 	        rehearsals = [];
@@ -111,6 +143,35 @@ describe("creates a personalised schedule for each actor", function () {
 
 	    	expect(result.length).toEqual(1);
 	    })
+	})
+
+	describe("getting all rehearsals which include optional parts for an array of scenes", function() {
+		it("should return no rehearsals when there are no rehearsals", function() {
+			rehearsals = [];
+
+			var result = getRehearsalsWhichIncludeOptionalParts(null);
+
+			expect(result).toEqual([]);
+		});
+
+		it("should return no rehearsals when there are no rehearsals for the given scenes", function() {
+			rehearsals = [{sceneNumbers: [1]}];
+
+			var result = getRehearsalsWhichIncludeOptionalParts([2]);
+
+			expect(result).toEqual([]);
+		})
+
+		it("should return all rehearsals for the given scenes which include optional parts", function() {
+			rehearsals = [{sceneNumbers: [1, 2]},
+						  {sceneNumbers: [2]},
+						  {sceneNumbers: [2, 3]},
+						  {sceneNumbers: [3, 4]}];
+
+			var result = getRehearsalsWhichIncludeOptionalParts([2, 3]);
+
+			expect(result.length).toEqual(3);
+		})
 	})
 
 	describe("getting all rehearsals with specific parts", function () {

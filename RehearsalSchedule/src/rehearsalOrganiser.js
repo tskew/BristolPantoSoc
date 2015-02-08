@@ -6,12 +6,16 @@ var rehearsals = [];
 
 function getRehearsalsForActor(actor) {
     var partsForActor = getPartsForActor(actor);
+
     var scenesForParts = getScenesForParts(partsForActor);
+    var optionalScenesForParts = getOptionalScenesForParts(partsForActor);
+
     var rehearsalsForScenes = getRehearsalsForScenes(scenesForParts);
+    var rehearsalsIncludingOptionalParts = getRehearsalsWhichIncludeOptionalParts(optionalScenesForParts);
     var rehearsalsWithSpecificParts = getRehearsalsWithSpecificParts(partsForActor);
     var fullCastRehearsals = getFullCastRehearsals();
 
-    return [].concat(rehearsalsForScenes, rehearsalsWithSpecificParts, fullCastRehearsals);
+    return [].concat(rehearsalsForScenes, rehearsalsIncludingOptionalParts, rehearsalsWithSpecificParts, fullCastRehearsals);
 }
 
 function getPartsForActor(actor) {
@@ -42,6 +46,24 @@ function getScenesForParts(parts) {
 	return scenesToReturn;
 }
 
+function getOptionalScenesForParts(parts) {
+    var scenesToReturn = [];
+
+    $.each(scenes, function(index, scene) {
+        if (scene.optionalCharacters != null) {
+            $.each(scene.optionalCharacters, function(index, character) {
+                $.each(parts, function(index, part) {
+                    if(character === part) {
+                        scenesToReturn.push(scene.sceneNumber);
+                    };
+                });
+            });
+        };
+    });
+
+    return scenesToReturn;
+}
+
 function getRehearsalsForScenes(scenes) {
     var rehearsalsToReturn = [];
 
@@ -53,6 +75,32 @@ function getRehearsalsForScenes(scenes) {
                 };
             };
         });
+    });
+    
+    return rehearsalsToReturn;
+}
+
+function getRehearsalsWhichIncludeOptionalParts(scenes) {
+    var rehearsalsToReturn = [];
+
+    $.each(rehearsals, function(index, rehearsal) {
+        var rehearsalShouldBeIncluded = false;
+
+        if (rehearsal.sceneNumbers != null) {
+            if (rehearsal.sceneNumbers.length > 1) {
+                $.each(rehearsal.sceneNumbers, function(index, sceneNumber) {
+                    $.each(scenes, function(index, scene) {
+                        if (sceneNumber === scene) {
+                            rehearsalShouldBeIncluded = true;
+                        };
+                    });
+                });
+
+                if (rehearsalShouldBeIncluded) {
+                    rehearsalsToReturn.push(rehearsal);
+                };
+            };
+        };
     });
     
     return rehearsalsToReturn;
