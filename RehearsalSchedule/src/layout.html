@@ -14,6 +14,8 @@ $(document).ready(function() {
 
 		createActorDdl(parts);
 		render(convertScheduleToRows(rehearsals));
+
+		addClickHandlerToRehearsals();
 	});
 
 	$('#submit').click(function() {
@@ -23,7 +25,12 @@ $(document).ready(function() {
 		} else {
 			renderSchedule(selectedActor);
 		}
-	})
+
+		$('#rehearsalDetails').html('');
+		addClickHandlerToRehearsals();
+	});
+
+	
 })
 
 function createActorDdl(actors) {
@@ -44,7 +51,7 @@ function renderSchedule(actor) {
 }
 
 function render(arr) {
-	document.getElementById("schedule").innerHTML = arr;
+	$("#schedule").html(arr);
 }
 
 function convertScheduleToRows(rehearsalsForActor) {
@@ -68,17 +75,34 @@ function convertScheduleToRows(rehearsalsForActor) {
 }
 
 function convertToRow(rehearsal) {
-	var rehearsalHTML = '<div class="rehearsal" ';
-	rehearsalHTML += 'title="' + getRehearsalTitle(rehearsal) + '; ' + rehearsal.date.time.hour + ':' + formatTime(rehearsal.date.time.minute) + '; ' + rehearsal.room + '" ';
+	var rehearsalHTML = '<div class="rehearsal ' + rehearsal.rehearsalType + '" ';
+	rehearsalHTML += 'title="' + rehearsal.room + '" ';
+	rehearsalHTML += "rehearsal='" + JSON.stringify(rehearsal) + "' ";
 	rehearsalHTML += 'style="';
 	rehearsalHTML += 'margin-left: ' + getTimeAsPixelOffset(rehearsal.date.time) + ";";
 	rehearsalHTML += 'width: ' + getDurationAsPixelLength(rehearsal.duration) + ";";
-	rehearsalHTML += 'background-color: ' + getColourForRehearsal(rehearsal);
 	rehearsalHTML += '">' + getRehearsalTitle(rehearsal);
 	rehearsalHTML += '</div>';
 
 	return rehearsalHTML;
 }
+
+function addClickHandlerToRehearsals() {
+	$('.rehearsal').click(function(sender) {
+			$('#rehearsalDetails').html(layoutRehearsalDetails(JSON.parse(sender.toElement.attributes.rehearsal.value)));
+		});
+}
+
+function layoutRehearsalDetails(rehearsal) {
+	var detailHTML = '<h2>' + getRehearsalTitle(rehearsal) + '</h2>';
+	detailHTML += '<p>Room: ' + rehearsal.room + '<br/>';
+	detailHTML += 'Start time: ' + rehearsal.date.time.hour + ':' + formatTime(rehearsal.date.time.minute) + '<br/>';
+	detailHTML += 'Duration: ' + rehearsal.duration + ' hour(s)';
+	detailHTML += '</p>';
+
+	return detailHTML;
+}
+
 </script>
 
 <script src="rehearsalOrganiser.js"></script>
@@ -94,3 +118,4 @@ function convertToRow(rehearsal) {
 	<div class="dates">Date</div><div class="time">12:00</div><div class="time">12:30</div><div class="time">13:00</div><div class="time">13:30</div><div class="time">14:00</div><div class="time">14:30</div><div class="time">15:00</div><div class="time">15:30</div><div class="time">16:00</div><div class="time">16:30</div><div class="time">17:00</div><div class="time">17:30</div><div class="time">18:00</div><div class="time">18:30</div><div class="time">19:00</div><div class="time">19:30</div><div class="time">20:00</div><div class="time">20:30</div><div class="time">21:00</div><div class="time">21:30</div><div class="time">22:00</div><div class="time">22:30</div>
 </div>
 <div id="schedule"></div>
+<div id="rehearsalDetails"></div>

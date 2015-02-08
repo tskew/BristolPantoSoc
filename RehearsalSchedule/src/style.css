@@ -1,10 +1,14 @@
+div {
+	font-family: monospace;
+}
+
 .scheduleRow {
-	width: 1081px;
+	width: 961px;
 	border-bottom: 1px solid black;
 }
 
 .dates {
-	width: 87px;
+	width: 77px;
 	padding-left: 2px;
 	border-left: 1px solid black;
 	border-right: 1px solid black;
@@ -12,7 +16,7 @@
 }
 
 .time {
-	width: 44px;
+	width: 39px;
 	border-right: 1px solid black;
 	display: inline-block;
 }
@@ -22,7 +26,15 @@
 	display: inline-block;
 	text-align: center;
 	border-right: 1px solid black;
+	background-color: #BE81F7;
 }
+	.D {
+		background-color: #81F7F3;
+	}
+
+	.S {
+		background-color: #FA5882;
+	}
 
 .actorSelection {
 	margin-bottom: 5px;

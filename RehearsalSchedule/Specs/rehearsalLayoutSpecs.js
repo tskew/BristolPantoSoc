@@ -79,7 +79,7 @@ describe("formats the rehearsal schedule into a timetable layout", function () {
 
     describe("getting the rehearsal title", function() {
         it("should always use the rehearsal name when present", function() {
-            var rehearsal = {rehearsalName: "any name", sceneNumbers: [1]};
+            var rehearsal = {rehearsalName: "any name", sceneNumbers: [1], specificParts: ["any part"]};
 
             var result = getRehearsalTitle(rehearsal);
 
@@ -176,44 +176,6 @@ describe("formats the rehearsal schedule into a timetable layout", function () {
             var result = formatTime(minute);
 
             expect(result).toEqual("10");
-        })
-    })
-
-    describe("getting a colour for the rehearsal", function() {
-        it("should return the default colour when a rehearsal type is not specified", function() {
-            ActingRehearsalColour = "green";
-            var rehearsal = {rehearsalName: "any rehearsal"};
-
-            var result = getColourForRehearsal(rehearsal);
-
-            expect(result).toEqual("green");
-        });
-
-        it("should return the acting colour when the rehearsal type is 'A'", function() {
-            ActingRehearsalColour = "green";
-            var rehearsal = {rehearsalName: "acting rehearsal", rehearsalType: "A"};
-
-            var result = getColourForRehearsal(rehearsal);
-
-            expect(result).toEqual("green");
-        });
-
-        it("should return the singing colour when the rehearsal type is 'S'", function() {
-            SingingRehearsalColour = "yellow";
-            var rehearsal = {rehearsalName: "singing rehearsal", rehearsalType: 'S'};
-
-            var result = getColourForRehearsal(rehearsal);
-
-            expect(result).toEqual("yellow");
-        });
-
-        it("should return the dancing colour when the rehearsal type is 'D'", function() {
-            DancingRehearsalColour = "red";
-            var rehearsal = {rehearsalName: "dancing rehearsal", rehearsalType: 'D'};
-
-            var result = getColourForRehearsal(rehearsal);
-
-            expect(result).toEqual("red");
         })
     })
 })
